@@ -3,6 +3,8 @@ pipeline{
         node {
             label "valaxy"
         }
+        environment {
+        PATH = /opt/mavne/bin:$PATH
     }
     stages {
         stage('build') {
