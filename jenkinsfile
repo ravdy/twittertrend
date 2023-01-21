@@ -3,6 +3,7 @@ pipeline{
         node {
             label "valaxy"
         }
+        }
         environment {
         PATH = "/opt/maven/bin:$PATH"
     }
