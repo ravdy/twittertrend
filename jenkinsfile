@@ -12,5 +12,17 @@ pipeline{
                 echo "------------ build completed ---------"
         }
       }
+       stage ("Sonar Analysis") {
+            environment {
+               scannerHome = tool 'valaxy-sonarscanner'
+            }
+            steps {
+                echo '<--------------- Sonar Analysis started  --------------->'
+                withSonarQubeEnv('valaxy-sonarqube-server') {    
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }    
+                echo '<--------------- Sonar Analysis stopped  --------------->'
+            }   
+        }
     }
-}
+    }
