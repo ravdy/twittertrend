@@ -4,6 +4,9 @@ pipeline {
          label "java-slave"
       }
     }
+    environment {
+        PATH="/usr/local/apache-maven-3.9.0/bin:$PATH"
+    }
     stages {
         stage('Build') {
             steps {
