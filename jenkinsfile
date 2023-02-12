@@ -34,6 +34,7 @@ pipeline {
                 }    
               echo '<--------------- Sonar Analysis stopped  --------------->' 
             }
+        }
             stage("Quality Gate"){
             steps {
                 echo '<--------------- Sonar gate Analysis started  --------------->'
@@ -48,4 +49,3 @@ pipeline {
             }
         }
      } 
-}
