@@ -1,5 +1,10 @@
 #!/bin/sh
 kubectl apply -f namespace.yaml
-sudo kubectl create secret generic regcred --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson -n valaxy
+kubectl create secret docker-registry privatecred \
+   --docker-server=valaxy02.jfrog.io \
+   --docker-username=kubernetes_admin \
+   --docker-password=Valaxy@123 \
+   --docker-email=arsravis@gmail.com \
+   -n valaxy
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
