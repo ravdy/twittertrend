@@ -16,6 +16,13 @@ pipeline {
                 echo '<------------- Build completed --------------->'
             }
         }
+        stage('Unit Test') {
+            steps {
+                echo '<--------------- Unit testing Started --------------->'
+                sh 'mvn surefire-report:report'
+                echo '<------------- Unit testing Completed --------------->'
+            }
+        }
         stage("sonar analysis"){
             environment {
                scannerHome = tool 'sonarqube-cloud'
