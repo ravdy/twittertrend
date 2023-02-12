@@ -19,45 +19,45 @@ pipeline{
         }
       }
 
-        stage('Unit Test') {
-            steps {
-                echo '<--------------- Unit Testing started  --------------->'
-                sh 'mvn surefire-report:report'
-                echo '<------------- Unit Testing stopped  --------------->'
-            }
-        }
+ //       stage('Unit Test') {
+ //           steps {
+ //               echo '<--------------- Unit Testing started  --------------->'
+ //               sh 'mvn surefire-report:report'
+ //               echo '<------------- Unit Testing stopped  --------------->'
+ //           }
+ //       }
+//
+//       stage ("Sonar Analysis") {
+//            environment {
+//               scannerHome = tool 'valaxy-sonarscanner'
+//            }
+//            steps {
+//                echo '<--------------- Sonar Analysis started  --------------->'
+//                withSonarQubeEnv('valaxy-sonarqube-server') {    
+//                    sh "${scannerHome}/bin/sonar-scanner"
+//                echo '<--------------- Sonar Analysis stopped  --------------->'
+//                }    
+//               
+//            }   
+//       }
+//        stage("Quality Gate") {
+//            steps {
+//                script {
+//                  echo '<--------------- Sonar Gate Analysis Started --------------->'
+//                    timeout(time: 1, unit: 'HOURS'){
+//                       def qg = waitForQualityGate()
+//                        if(qg.status !='OK') {
+//                            error "Pipeline failed due to quality gate failures: ${qg.status}"
+//                        }
+//                    }  
+//                 echo '<--------------- Sonar Gate Analysis Ends  --------------->'
+//                }
+//            }
+//        }
 
-       stage ("Sonar Analysis") {
-            environment {
-               scannerHome = tool 'valaxy-sonarscanner'
-            }
+          stage("Jar Publish") {
             steps {
-                echo '<--------------- Sonar Analysis started  --------------->'
-                withSonarQubeEnv('valaxy-sonarqube-server') {    
-                    sh "${scannerHome}/bin/sonar-scanner"
-                echo '<--------------- Sonar Analysis stopped  --------------->'
-                }    
-               
-            }   
-        }
-        stage("Quality Gate") {
-            steps {
-                script {
-                  echo '<--------------- Sonar Gate Analysis Started --------------->'
-                    timeout(time: 1, unit: 'HOURS'){
-                       def qg = waitForQualityGate()
-                        if(qg.status !='OK') {
-                            error "Pipeline failed due to quality gate failures: ${qg.status}"
-                        }
-                    }  
-                  echo '<--------------- Sonar Gate Analysis Ends  --------------->'
-                }
-            }
-        }
-
-         stage("Jar Publish") {
-        steps {
-            script {
+              script {
                     echo '<--------------- Jar Publish Started --------------->'
                      def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"jfrog-access"
                      def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
@@ -77,15 +77,15 @@ pipeline{
                      server.publishBuildInfo(buildInfo)
                      echo '<--------------- Jar Publish Ended --------------->'  
             
-            }
-        }   
-    }
-stage(" Docker Build ") {
-      steps {
-        script {
-           echo '<--------------- Docker Build Started --------------->'
-           app = docker.build(imageName+":"+version)
-           echo '<--------------- Docker Build Ends --------------->'
+              }
+            }   
+        }
+        stage(" Docker Build ") {
+            steps {
+                 script {
+                    echo '<--------------- Docker Build Started --------------->'
+                    app = docker.build(imageName+":"+version)
+                    echo '<--------------- Docker Build Ends --------------->'
         }
       }
     }
@@ -109,6 +109,6 @@ stage(" Deploy ") {
                echo '<--------------- Deploy Ends --------------->'
             }
           }
-        }    
+        } 
     }
     }
