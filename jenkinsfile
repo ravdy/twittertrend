@@ -13,16 +13,16 @@ pipeline {
                 echo '<------------- Build completed --------------->'
             }
         }
-        stage('sonar analysis'){
-            environment  {
-                scannerHome = tool 'sonarqube-cloud'
-                        }   
+        stage("sonar analysis"){
+            environment {
+               scannerHome = tool 'sonarqube-cloud'
+            }
             steps {
-                 echo '<--------------- Sonar Analysis Started --------------->'
-                    withSonarQubeEnv('sonarqube-cloud')
+                echo '<--------------- Sonar Analysis started  --------------->'
+                withSonarQubeEnv('sonarqube-cloud') {    
                     sh "${scannerHome}/bin/sonar-scanner"
-                }
-                echo '<--------------- Sonar Analysis stopped  --------------->' 
+                }    
+              echo '<--------------- Sonar Analysis stopped  --------------->' 
             }
         }
     }
