@@ -13,7 +13,7 @@ pipeline {
                 echo '<------------- Build completed --------------->'
             }
         }
-        stage('sonar analysis')
+        stage('sonar analysis'){
             environment  {
                 scannerHome = tool "sonarqube-cloud"
     }
@@ -23,4 +23,5 @@ pipeline {
         sh "${scannerHome}/bin/sonar-scanner"
         }
     }
+}
 }
