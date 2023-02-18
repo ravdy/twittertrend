@@ -105,7 +105,7 @@ stage(" Docker Build ") {
           steps {
             script {
                echo '<--------------- Deploy Started --------------->'
-               sh './deploy.sh'
+               sh 'helm install twittertrend-2.0.2 ttrend'
                echo '<--------------- Deploy Ends --------------->'
             }
           }
